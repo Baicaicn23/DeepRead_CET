@@ -34,7 +34,7 @@
     btn.addEventListener("click", () => setView(btn.dataset.view));
   });
 
-  if (passage) {
+  if (passage && viewButtons.length) {
     let view = "bilingual";
     try { view = localStorage.getItem(VIEW_KEY) || "bilingual"; } catch (err) {}
     setView(view);
@@ -43,6 +43,7 @@
   const article = document.querySelector(".article-wrap");
   document.querySelectorAll("[data-type]").forEach((btn) => {
     btn.addEventListener("click", () => {
+      if (!article) return;
       const next = Number(article.style.getPropertyValue("--type") || 0) + Number(btn.dataset.type);
       const clamped = Math.max(-2, Math.min(3, next));
       article.style.setProperty("--type", String(clamped));
@@ -58,6 +59,57 @@
         article.style.fontSize = `${18 + Number(saved)}px`;
       }
     } catch (err) {}
+  }
+
+  // Per-paragraph translate toggles
+  document.querySelectorAll(".tr-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const para = btn.closest(".para");
+      if (!para) return;
+      const open = !para.classList.contains("is-open");
+      para.classList.toggle("is-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.textContent = open ? "收起" : "翻译";
+    });
+  });
+
+  // Question switcher (one question at a time)
+  const qButtons = Array.from(document.querySelectorAll("[data-q-goto]"));
+  const qPanels = Array.from(document.querySelectorAll(".study .q[data-q]"));
+
+  function showQuestion(num, pushHash) {
+    if (!qPanels.length) return;
+    const id = String(num);
+    qPanels.forEach((panel) => {
+      const active = panel.dataset.q === id;
+      panel.classList.toggle("is-active", active);
+      if (active) panel.removeAttribute("hidden");
+      else panel.setAttribute("hidden", "");
+    });
+    qButtons.forEach((btn) => {
+      const active = btn.dataset.qGoto === id;
+      if (active) btn.setAttribute("aria-current", "true");
+      else btn.removeAttribute("aria-current");
+    });
+    if (pushHash) {
+      try {
+        history.replaceState(null, "", "#q" + id);
+      } catch (err) {}
+    }
+  }
+
+  qButtons.forEach((btn) => {
+    btn.addEventListener("click", () => showQuestion(btn.dataset.qGoto, true));
+  });
+
+  if (qPanels.length) {
+    let initial = qPanels[0].dataset.q;
+    const hash = (location.hash || "").replace(/^#/, "");
+    if (/^q\d+$/i.test(hash)) {
+      const fromHash = hash.slice(1);
+      if (qPanels.some((p) => p.dataset.q === fromHash)) initial = fromHash;
+    }
+    showQuestion(initial, false);
   }
 
   document.querySelectorAll("[data-jump]").forEach((el) => {
