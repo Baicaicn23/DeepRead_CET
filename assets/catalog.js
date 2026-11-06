@@ -18,6 +18,24 @@ window.ARTICLE_CATALOG = [
     summary: "约一半父母担心孩子接触网络不雅内容；过度使用手机会让青少年更孤独低落。51C 52B 53D 54B 55A。"
   },
   {
+    id: "cet6-2022-12-3-telomeres",
+    title: "Your Telomeres Are Listening to You",
+    titleZh: "端粒在听你说话",
+    source: "2022年12月英语六级第3套",
+    date: "2022-12",
+    href: "articles/cet6-2022-12-3-telomeres.html",
+    summary: "衰老快慢受基因、环境与生活方式共同影响；愤世嫉俗的敌意伤端粒，衰老在一定程度上可控。46A 47B 48C 49B 50D。"
+  },
+  {
+    id: "cet6-2022-12-3-plastic-enzyme",
+    title: "An Enzyme That Breaks Down Plastic Bottles",
+    titleZh: "能分解塑料瓶的酶",
+    source: "2022年12月英语六级第3套",
+    date: "2022-12",
+    href: "articles/cet6-2022-12-3-plastic-enzyme.html",
+    summary: "科学家意外改进出能分解饮料瓶塑料的酶，有望实现完全回收；应用前需评估对环境的其他影响。51B 52A 53A 54D 55C。"
+  },
+  {
     id: "cet6-2022-06-1-common-sense",
     title: "We Can't Trust Common Sense But We Can Trust Science",
     titleZh: "常识靠不住，科学可以信",
